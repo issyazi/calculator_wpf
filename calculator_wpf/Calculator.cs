@@ -8,39 +8,99 @@ namespace calculator_wpf
 {
     public class Calculator
     {
+        private const short MaxLenInput = 15;
+        private const short MaxLenComma = 9;
+        private const short MaxLenOutput = 45;
+        private bool IsFirst = true;
+        private string SignSave;
+        private bool BlockAction = false;
+        //public string Sign = "no";
         public double Accum { get; private set;  }
         public double Operand { get; private set; }
         public string Value { get; private set; }
-        public enum State { FirstOp, SecondOp, Procent, Reciproc, Sqrt, SignChng }
-        public State state { get; private set; } = State.FirstOp;
-        public void Plus()
+        public enum State {
+            Neutral, Plus, Minus, Divide, Mult
+        }
+        public State state { get; private set; } = State.Neutral;
+        public void Digit(string digit) //добавление чисел
         {
-            if (state == State.FirstOp) 
-            { 
+            if (IsFirst == false) { Value = ""; }
+            Value += digit;
+        }
+        public void Operations (string sign)
+        {
+            BlockAction = false;
+            if (IsFirst == true)
+            {
                 Accum = double.Parse(Value);
                 Value = "";
-                state = State.SecondOp;
-             }
+                IsFirst = false;
+            }
             else
             {
                 Operand = double.Parse(Value);
-                Accum += Operand;
+                switch (sign)
+                {
+                    case "+":
+                        Accum += Operand;
+                        break;
+                    case "-":
+                        Accum -= Operand;
+                        break;
+                    case "/":
+                        if (Value == "0")
+                        {
+                            //ошибка
+                            return;
+                        }
+                        Accum /= Operand;
+                        break;
+                    case "*":
+                        Accum *= Operand;
+                        break;
+
+                }
+                SignSave = sign;
                 Value = Accum.ToString();
             }
         }
-        public void Digit(string digit) //добавление чисел
-        {
-            if (state == State.SecondOp) { Value = ""; }
-            Value += digit;
-        }
         public void Equal() //равно
         {
+            Operations(SignSave);
             Value = Convert.ToString(Accum);
-            state = State.FirstOp;
+            IsFirst = true;
         }
         public void Erase()
         {
-            Value = Value.Remove(Value.Length - 1);
+            if (Value.Length == 1 && BlockAction == false)
+            {
+                Value = "0";
+                BlockAction = true;
+            }
+            else
+            {
+                Value = Value.Remove(Value.Length - 1);
+            }
+        }
+        public void MemorySave()
+        {
+
+        }
+        public void MemoryDel()
+        {
+
+        }
+        public void MemoryPlus()
+        {
+
+        }
+        public void MemoryMinus()
+        {
+
+        }
+        public void MemoryR()
+        {
+
         }
     }
 }

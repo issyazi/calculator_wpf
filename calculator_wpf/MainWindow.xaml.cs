@@ -31,10 +31,9 @@ namespace calculator_wpf
             calc.Digit((sender as Button).Content.ToString());
             TextInput.Text = calc.Value;
         }
-        private void ClickPlus(object sender, RoutedEventArgs e)
+        private void ClickOperations(object sender, RoutedEventArgs e)
         {
-            TextOutput.Text += calc.Value + " + ";
-            calc.Plus();
+            calc.Operations((sender as Button).Content.ToString());
             TextInput.Text = calc.Value;
         }
         private void ClickEqual(object sender, RoutedEventArgs e)
@@ -48,7 +47,7 @@ namespace calculator_wpf
             calc.Erase();
             TextInput.Text = calc.Value;
         }
-        private void MemoryAdd(object sender, RoutedEventArgs e)
+        private void ClickMemorySave(object sender, RoutedEventArgs e)
         {
             var m = new Label();
             /*m.Width = 30;
@@ -56,6 +55,23 @@ namespace calculator_wpf
             m.Content = "M";
             MainGrid.Children.Add(m);*/
         }
-        
+        public void ClickMemoryDel(object sender, RoutedEventArgs e)
+        {
+
+        }
+        public void ClickMemoryPlus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        public void ClickMemoryMinus(object sender, RoutedEventArgs e)
+        {
+
+        }
+        public void ClickMemoryR(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
     }
 }
